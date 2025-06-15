@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive SCR Connectivity</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body { margin: 0; font-family: 'Inter', sans-serif; background-color: #1a1a2e; color: #e0e0e0;}
+    #plot { width: 100vw; height: 100vh; }
+  </style>
+</head>
+<body>
+<div id="plot"></div>
+
+<script>
+const nodes = [
+    {'id': 'Kanpur PE-03', 'label': 'Kanpur PE-03', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'AGRA SCR', 'label': 'AGRA SCR', 'x': 0, 'y': 100, 'color': '#FF7F50', 'visible': true},
+    {'id': 'Kanpur PE-02', 'label': 'Kanpur PE-02', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'Mirzapur PE-01', 'label': 'Mirzapur PE-01', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'Allahabad PE-02', 'label': 'Allahabad PE-02', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'Faizabad PE-01', 'label': 'Faizabad PE-01', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'GKP SCR', 'label': 'GKP SCR', 'x': 150, 'y': 100, 'color': '#FF7F50', 'visible': true},
+    {'id': 'Azamgarh PE-01', 'label': 'Azamgarh PE-01', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'Basti PE-01', 'label': 'Basti PE-01', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'Gorakhpur PE-01', 'label': 'Gorakhpur PE-01', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'Gorakhpur PE-02', 'label': 'Gorakhpur PE-02', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'Sultanpur-pe-01', 'label': 'Sultanpur-pe-01', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'Jhansi PE-01', 'label': 'Jhansi PE-01', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'JHI SCR', 'label': 'JHI SCR', 'x': 300, 'y': 100, 'color': '#FF7F50', 'visible': true},
+    {'id': 'Jhansi PE-02', 'label': 'Jhansi PE-02', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'Allahabad PE-01', 'label': 'Allahabad PE-01', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'LKW KSB SCR', 'label': 'LKW KSB SCR', 'x': 450, 'y': 100, 'color': '#FF7F50', 'visible': true},
+    {'id': 'Lucknow KSB MCR-01', 'label': 'Lucknow KSB MCR-01', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'LKW PE-02, RTTC', 'label': 'LKW PE-02, RTTC', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'LKW PE-04, Gomtinagar', 'label': 'LKW PE-04, Gomtinagar', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'LKW PE-05, KSB', 'label': 'LKW PE-05, KSB', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'LKW PE-06, KSB', 'label': 'LKW PE-06, KSB', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'LKW PE-07, Mahanagar', 'label': 'LKW PE-07, Mahanagar', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'LKW PE-08 RTTC', 'label': 'LKW PE-08 RTTC', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'Sitapur PE-01', 'label': 'Sitapur PE-01', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'Varanasi PE-01 Shivpurwa', 'label': 'Varanasi PE-01 Shivpurwa', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'Varanasi PE-2 Cantt', 'label': 'Varanasi PE-2 Cantt', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false},
+    {'id': 'LKW RTTC SCR', 'label': 'LKW RTTC SCR', 'x': 600, 'y': 100, 'color': '#FF7F50', 'visible': true},
+    {'id': 'NEW DELHI SCR', 'label': 'NEW DELHI SCR', 'x': 750, 'y': 100, 'color': '#FF7F50', 'visible': true},
+    {'id': 'VNS SCR', 'label': 'VNS SCR', 'x': 900, 'y': 100, 'color': '#FF7F50', 'visible': true},
+    {'id': 'Varanasi PE-03 NTR Bldg Cantt', 'label': 'Varanasi PE-03 NTR Bldg Cantt', 'x': 0, 'y': 0, 'color': '#87CEEB', 'visible': false}
+];
+
+const edges = [
+    {'source': 'Kanpur PE-03', 'target': 'AGRA SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Kanpur PE-03', 'target': 'JHI SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Kanpur PE-03', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Kanpur PE-03', 'target': 'NEW DELHI SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Kanpur PE-02', 'target': 'AGRA SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Kanpur PE-02', 'target': 'JHI SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Kanpur PE-02', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Kanpur PE-02', 'target': 'LKW RTTC SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Kanpur PE-02', 'target': 'NEW DELHI SCR', 'bandwidth': '2.5 G', 'visible': true},
+    {'source': 'Mirzapur PE-01', 'target': 'AGRA SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Mirzapur PE-01', 'target': 'LKW RTTC SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Mirzapur PE-01', 'target': 'VNS SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Allahabad PE-02', 'target': 'AGRA SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Allahabad PE-02', 'target': 'LKW RTTC SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Allahabad PE-02', 'target': 'VNS SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Faizabad PE-01', 'target': 'GKP SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Faizabad PE-01', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Faizabad PE-01', 'target': 'NEW DELHI SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Azamgarh PE-01', 'target': 'GKP SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Azamgarh PE-01', 'target': 'LKW RTTC SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Azamgarh PE-01', 'target': 'VNS SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Basti PE-01', 'target': 'GKP SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Basti PE-01', 'target': 'LKW RTTC SCR', 'bandwidth': '10G', 'visible': true},
+    {'source': 'Gorakhpur PE-01', 'target': 'GKP SCR', 'bandwidth': '100 G', 'visible': true},
+    {'source': 'Gorakhpur PE-01', 'target': 'VNS SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Gorakhpur PE-02', 'target': 'GKP SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Gorakhpur PE-02', 'target': 'VNS SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Sultanpur-pe-01', 'target': 'GKP SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Sultanpur-pe-01', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Sultanpur-pe-01', 'target': 'VNS SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Jhansi PE-01', 'target': 'JHI SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Jhansi PE-01', 'target': 'LKW RTTC SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Jhansi PE-02', 'target': 'JHI SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Jhansi PE-02', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Allahabad PE-01', 'target': 'JHI SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Allahabad PE-01', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Allahabad PE-01', 'target': 'LKW RTTC SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Allahabad PE-01', 'target': 'VNS SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Lucknow KSB MCR-01', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Lucknow KSB MCR-01', 'target': 'LKW RTTC SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'LKW PE-02, RTTC', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'LKW PE-02, RTTC', 'target': 'LKW RTTC SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'LKW PE-04, Gomtinagar', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'LKW PE-04, Gomtinagar', 'target': 'LKW RTTC SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'LKW PE-05, KSB', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'LKW PE-05, KSB', 'target': 'LKW RTTC SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'LKW PE-06, KSB', 'target': 'LKW KSB SCR', 'bandwidth': '100 G', 'visible': true},
+    {'source': 'LKW PE-06, KSB', 'target': 'LKW RTTC SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'LKW PE-07, Mahanagar', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'LKW PE-08 RTTC', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'LKW PE-08 RTTC', 'target': 'LKW RTTC SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Sitapur PE-01', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Sitapur PE-01', 'target': 'LKW RTTC SCR', 'bandwidth': '2.5 G', 'visible': true},
+    {'source': 'Varanasi PE-01 Shivpurwa', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Varanasi PE-01 Shivpurwa', 'target': 'VNS SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Varanasi PE-2 Cantt', 'target': 'LKW KSB SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Varanasi PE-2 Cantt', 'target': 'VNS SCR', 'bandwidth': '10 G', 'visible': true},
+    {'source': 'Varanasi PE-03 NTR Bldg Cantt', 'target': 'VNS SCR', 'bandwidth': '10 G', 'visible': true}
+];
+
+function getVisibleTraces() {
+  let edgeX = [], edgeY = [];
+  let nodeX = [], nodeY = [], nodeText = [], nodeColor = [], nodeIds = [];
+  let annotations = [];
+
+  const pos = {};
+  nodes.forEach(n => {
+    if (n.visible) {
+      nodeX.push(n.x);
+      nodeY.push(n.y);
+      nodeText.push(n.label);
+      nodeColor.push(n.color);
+      nodeIds.push(n.id);
+      pos[n.id] = {x: n.x, y: n.y};
+    }
+  });
+
+  edges.forEach(e => {
+    const srcNode = nodes.find(n => n.id === e.source);
+    const tgtNode = nodes.find(n => n.id === e.target);
+
+    if (srcNode && tgtNode && srcNode.visible && tgtNode.visible) {
+      edgeX.push(pos[e.source].x, pos[e.target].x, null);
+      edgeY.push(pos[e.source].y, pos[e.target].y, null);
+
+      annotations.push({
+        x: (pos[e.source].x + pos[e.target].x) / 2,
+        y: (pos[e.source].y + pos[e.target].y) / 2,
+        text: e.bandwidth,
+        showarrow: false,
+        font: { size: 10, color: '#f0f0f0' },
+        bgcolor: '#333333',
+        bordercolor: '#555555',
+        borderwidth: 1,
+        borderpad: 2
+      });
+    }
+  });
+
+  return {
+    edgeTrace: {
+      x: edgeX,
+      y: edgeY,
+      mode: 'lines',
+      line: { width: 1.5, color: '#666666' },
+      hoverinfo: 'none',
+      showlegend: false
+    },
+    nodeTrace: {
+      x: nodeX,
+      y: nodeY,
+      text: nodeText,
+      mode: 'markers+text',
+      textposition: 'top center',
+      hoverinfo: 'text',
+      marker: {
+        color: nodeColor,
+        size: 20,
+        line: { width: 2, color: '#f0f0f0' }
+      },
+      customdata: nodeIds
+    },
+    annotations: annotations
+  };
+}
+
+function renderGraph() {
+  const traces = getVisibleTraces();
+  Plotly.newPlot('plot', [traces.edgeTrace, traces.nodeTrace], {
+    title: {
+      text: 'Click SCR to Reveal Connections',
+      font: {
+        color: '#e0e0e0'
+      }
+    },
+    plot_bgcolor: '#1a1a2e',
+    paper_bgcolor: '#1a1a2e',
+    showlegend: false,
+    hovermode: 'closest',
+    margin: { b: 50, l: 50, r: 50, t: 70 },
+    annotations: traces.annotations,
+    xaxis: {
+      showgrid: false,
+      zeroline: false,
+      visible: false
+    },
+    yaxis: {
+      showgrid: false,
+      zeroline: false,
+      visible: false
+    }
+  }, {
+    displayModeBar: true,
+    responsive: true
+  });
+}
+
+renderGraph();
+
+document.getElementById('plot').on('plotly_click', function(data) {
+  if (data.points && data.points.length > 0 && data.points[0].customdata) {
+    const clickedNodeId = data.points[0].customdata;
+    let centerX = 0, centerY = 0;
+
+    const clickedSCR = nodes.find(n => n.id === clickedNodeId);
+    if (clickedSCR) {
+      centerX = clickedSCR.x;
+      centerY = clickedSCR.y;
+    } else {
+      return;
+    }
+
+    let angleOffset = 0;
+    const radius = 120;
+
+    const connectedEdges = edges.filter(e => e.source === clickedNodeId || e.target === clickedNodeId);
+    
+    const peNodesToReveal = new Set();
+    connectedEdges.forEach(e => {
+        let peNodeId = null;
+        if (e.source === clickedNodeId) {
+            peNodeId = e.target;
+        } else if (e.target === clickedNodeId) {
+            peNodeId = e.source;
+        }
+        
+        const peNode = nodes.find(n => n.id === peNodeId);
+        if (peNode && !peNode.visible && peNode.color === '#87CEEB') {
+            peNodesToReveal.add(peNode);
+        }
+    });
+
+    Array.from(peNodesToReveal).forEach(node => {
+        node.visible = true;
+        node.x = centerX + radius * Math.cos(angleOffset);
+        node.y = centerY + radius * Math.sin(angleOffset);
+        angleOffset += (2 * Math.PI) / (peNodesToReveal.size || 1);
+    });
+
+    renderGraph();
+  }
+});
+</script>
+</body>
+</html>
